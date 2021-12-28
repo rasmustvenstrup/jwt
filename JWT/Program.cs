@@ -1,5 +1,7 @@
 using System.Security.Claims;
 using System.Text;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using JWT.Models;
 using JWT.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -11,6 +13,18 @@ var builder = WebApplication.CreateBuilder(args);
 // Setup Swagger.
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+builder.Services.Configure<Microsoft.AspNetCore.Http.Json.JsonOptions>(options =>
+{
+    // Ignore null values when serializing to JSON.
+    options.SerializerOptions.DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull;
+
+    // Output enums as strings.
+    options.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
+});
+
+// Add this JSON serializer for MVC too, otherwise Swagger will show enums as integers.
+builder.Services.Configure<Microsoft.AspNetCore.Mvc.JsonOptions>(o => o.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter()));
 
 builder.Services.AddAuthorization(o =>
     {
