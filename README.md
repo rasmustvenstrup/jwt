@@ -1,2 +1,2 @@
 # jwt
-Example of JWT implemention in C# .NET 6.0 using minimal API.
+Example of JWT implemention using minimal API in ASP.NET Core 6.0.
