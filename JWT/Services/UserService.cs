@@ -23,14 +23,12 @@ public class UserService : IUserService
 
     public User[] GetUsers()
     {
-        var users = _users.ToArray();
-        return users;
+        return _users.ToArray();
     }
 
     public User? GetUser(string username)
     {
-        var user = _users.FirstOrDefault(user => user.Username == username);
-        return user;
+        return _users.FirstOrDefault(user => user.Username == username);
     }
 
     public void AddUser(User user)
